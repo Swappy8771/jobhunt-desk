@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Colour tokens: light by default, dark when the device is in dark mode.
+   Use as Tailwind classes: bg-surface, text-muted, border-line, bg-accent, text-good... */
+@theme {
+  --color-bg: #f4f6f8;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef2f5;
+  --color-line: #d9e0e6;
+  --color-fg: #16202a;
+  --color-muted: #5b6875;
+  --color-accent: #0e7c74;
+  --color-accent-fg: #ffffff;
+  --color-accent-soft: #dcf1ee;
+  --color-good: #1f8a4c;
+  --color-good-soft: #e1f4e8;
+  --color-warn: #a15c00;
+  --color-warn-soft: #fdf0d9;
+  --color-bad: #b42318;
+  --color-bad-soft: #fde6e3;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-head: var(--font-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #0f1418;
+    --color-surface: #161d23;
+    --color-surface-2: #1d262e;
+    --color-line: #2a3640;
+    --color-fg: #e3e9ee;
+    --color-muted: #93a2ae;
+    --color-accent: #3cc3b5;
+    --color-accent-fg: #06201d;
+    --color-accent-soft: #123a36;
+    --color-good: #57c98a;
+    --color-good-soft: #13301f;
+    --color-warn: #f0b259;
+    --color-warn-soft: #382a12;
+    --color-bad: #f2867a;
+    --color-bad-soft: #3a1a17;
+    color-scheme: dark;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-fg);
 }
+
+/* Small shared building blocks */
+@layer components {
+  .card { @apply rounded-xl border border-line bg-surface p-4 grid gap-3 min-w-0; }
+  .btn { @apply inline-flex min-h-10 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-line bg-surface px-3.5 py-2 text-sm font-semibold text-fg no-underline disabled:cursor-default disabled:opacity-50; }
+  .btn-primary { @apply border-accent bg-accent text-accent-fg; }
+  .btn-sm { @apply min-h-8 px-2.5 py-1 text-[13px]; }
+  .field { @apply w-full min-w-0 rounded-lg border border-line bg-surface px-2.5 py-2 text-[15px] text-fg; }
+  .label { @apply grid gap-1 text-[13px] font-semibold text-muted; }
+  .h2 { @apply font-head text-[17px] font-semibold; }
+  .h3 { @apply text-[13px] font-semibold uppercase tracking-wider text-muted; }
+  .pill { @apply inline-block whitespace-nowrap rounded-full bg-surface-2 px-2 py-0.5 text-xs font-semibold text-muted; }
+  .pill-good { @apply bg-good-soft text-good; }
+  .pill-warn { @apply bg-warn-soft text-warn; }
+  .pill-bad { @apply bg-bad-soft text-bad; }
+  .pill-accent { @apply bg-accent-soft text-accent; }
+  .chip { @apply cursor-pointer rounded-full border border-line bg-surface px-2.5 py-1 text-[13px] font-semibold text-muted; }
+  .chip[aria-pressed="true"] { @apply border-accent bg-accent-soft text-fg; }
+}
+
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
